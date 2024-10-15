@@ -27,14 +27,30 @@ class MainActivity : AppCompatActivity() {
 //            Log.i("Card!!!!!!!!!!!!!!!!!!!", R.drawable.c_2_of_clubs.toString())
 //            Log.i("Card!!!!!!!!!!!!!!!!!!!", R.drawable.c_2_of_diamonds.toString())
 
-            val c = Random.nextInt(52)
+            val c = IntArray(5)
+            val res = IntArray(5)
 
-            val res = resources.getIdentifier(
-                getCardName(c),
-                "drawable",
-                packageName
-            )
-            mainBinding.imgCard1.setImageResource(res)
+            //for (i in 0..4)
+            //for (i in 0 until 5)
+            //for (i in 0 until c.size)
+            for (i in c.indices) {
+                c[i] = Random.nextInt(52)
+
+                Log.i("Test", "${c[i]} : " +
+                        "${getCardName(c[i])}")
+
+                res[i] = resources.getIdentifier(
+                    getCardName(c[i]),
+                    "drawable",
+                    packageName
+                )
+            }
+
+            mainBinding.imgCard1.setImageResource(res[0])
+            mainBinding.imgCard2.setImageResource(res[1])
+            mainBinding.imgCard3.setImageResource(res[2])
+            mainBinding.imgCard4.setImageResource(res[3])
+            mainBinding.imgCard5.setImageResource(res[4])
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -62,5 +78,27 @@ class MainActivity : AppCompatActivity() {
         }
 
         return "c_${number}_of_${shape}"
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        Log.i("Lifecycle!!!!!!!!!!!!", "onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        Log.i("Lifecycle!!!!!!!!!!1", "onResume")
+    }
+    override fun onPause() {
+        super.onPause()
+
+        Log.i("Lifecycle!!!!!!!!!!1", "onPause")
+    }
+    override fun onStop() {
+        super.onStop()
+
+        Log.i("Lifecycle!!!!!!!!!!1", "onStop")
     }
 }
