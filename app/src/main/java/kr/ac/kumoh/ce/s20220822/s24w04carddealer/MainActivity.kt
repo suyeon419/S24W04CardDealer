@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.util.Log
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import kr.ac.kumoh.ce.s20220822.s24w04carddealer.databinding.ActivityMainBinding
 import kotlin.random.Random
@@ -24,26 +25,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(mainBinding.root)
 
         val model = ViewModelProvider(this)[CardViewModel::class.java]
-
-        val res = IntArray(5)
-
-        model.cards.value!!.forEachIndexed { index, num ->
-            res[index] = resources.getIdentifier(
-                getCardName(num),
-                "drawable",
-                packageName
-            )
-        }
-
-        mainBinding.imgCard1.setImageResource(res[0])
-        mainBinding.imgCard2.setImageResource(res[1])
-        mainBinding.imgCard3.setImageResource(res[2])
-        mainBinding.imgCard4.setImageResource(res[3])
-        mainBinding.imgCard5.setImageResource(res[4])
-
-
-        mainBinding.btn1Deal.setOnClickListener {
-            model.shuffle()
+        model.cards.observe(this, Observer {
+            val res = IntArray(5)
 
             model.cards.value!!.forEachIndexed { index, num ->
                 res[index] = resources.getIdentifier(
@@ -58,6 +41,25 @@ class MainActivity : AppCompatActivity() {
             mainBinding.imgCard3.setImageResource(res[2])
             mainBinding.imgCard4.setImageResource(res[3])
             mainBinding.imgCard5.setImageResource(res[4])
+        })
+
+
+        mainBinding.btn1Deal.setOnClickListener {
+            model.shuffle()
+
+            /*model.cards.value!!.forEachIndexed { index, num ->
+                res[index] = resources.getIdentifier(
+                    getCardName(num),
+                    "drawable",
+                    packageName
+                )
+            }
+
+            mainBinding.imgCard1.setImageResource(res[0])
+            mainBinding.imgCard2.setImageResource(res[1])
+            mainBinding.imgCard3.setImageResource(res[2])
+            mainBinding.imgCard4.setImageResource(res[3])
+            mainBinding.imgCard5.setImageResource(res[4])*/
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
